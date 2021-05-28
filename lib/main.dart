@@ -1,4 +1,4 @@
-import 'package:chat/screens/chat_screen.dart';
+import 'package:chat/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -27,9 +27,20 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Flutter Chat',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.pink,
+            backgroundColor: Colors.pink,
+            accentColor: Colors.deepPurple,
+            accentColorBrightness: Brightness.dark,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
           ),
-          home: ChatScreen(),
+          home: AuthScreen(),
         );
       },
     );
