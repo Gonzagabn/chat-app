@@ -28,6 +28,14 @@ class _ChatScreenState extends State<ChatScreen> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          FirebaseFirestore.instance.collection('chat').add({
+            'text': 'Adicionado manualmente!',
+          });
+        },
+      ),
     );
   }
 }
