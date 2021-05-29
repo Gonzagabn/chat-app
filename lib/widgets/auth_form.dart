@@ -1,3 +1,4 @@
+import 'package:chat/models/auth_data.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
@@ -6,6 +7,10 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
+  final AuthData _authData = AuthData();
+
+  _submit() {}
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -17,30 +22,38 @@ class _AuthFormState extends State<AuthForm> {
             child: Form(
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Nome',
+                  if (_authData.isSignup)
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                      ),
+                      onChanged: (value) => _authData.name = value,
                     ),
-                  ),
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'E-mail',
                     ),
+                    onChanged: (value) => _authData.email = value,
                   ),
                   TextFormField(
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                     ),
+                    onChanged: (value) => _authData.password = value,
                   ),
                   SizedBox(height: 12),
                   ElevatedButton(
-                    child: Text('Entrar'),
-                    onPressed: () {},
+                    child: Text(_authData.isLogin ? 'Entrar' : 'Cadastrar'),
+                    onPressed: _submit,
                   ),
                   TextButton(
                     child: Text('Criar uma nova conta?'),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _authData.toggleMode();
+                      });
+                    },
                   ),
                 ],
               ),
