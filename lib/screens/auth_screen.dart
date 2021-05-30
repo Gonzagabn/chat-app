@@ -27,7 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
           password: authData.password!,
         );
       }
-    } on PlatformException catch (err) {
+    } on FirebaseAuthException catch (err) {
       final msg = err.message ?? 'Ocorreu um erro! verifique suas credenciais.';
       _scaffoldMessengerKey.currentState!.showSnackBar(
         SnackBar(
