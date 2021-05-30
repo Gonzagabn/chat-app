@@ -2,7 +2,6 @@ import 'package:chat/models/auth_data.dart';
 import 'package:chat/widgets/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
