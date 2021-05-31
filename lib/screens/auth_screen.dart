@@ -1,5 +1,6 @@
 import 'package:chat/models/auth_data.dart';
 import 'package:chat/widgets/auth_form.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,18 +14,35 @@ class _AuthScreenState extends State<AuthScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  bool _isLoading = false;
+
   Future<void> _handleSubmit(AuthData authData) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    UserCredential userCredential;
     try {
       if (authData.isLogin) {
-        await _auth.signInWithEmailAndPassword(
+        userCredential = await _auth.signInWithEmailAndPassword(
           email: authData.email!.trim(),
           password: authData.password!,
         );
       } else {
-        await _auth.createUserWithEmailAndPassword(
+        userCredential = await _auth.createUserWithEmailAndPassword(
           email: authData.email!.trim(),
           password: authData.password!,
         );
+
+        final userData = {
+          'name': authData.name,
+          'email': authData.email,
+        };
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set(userData);
       }
     } on FirebaseAuthException catch (err) {
       final msg = err.message ?? 'Ocorreu um erro! verifique suas credenciais.';
@@ -36,6 +54,10 @@ class _AuthScreenState extends State<AuthScreen> {
       );
     } catch (err) {
       print(err);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -45,7 +67,30 @@ class _AuthScreenState extends State<AuthScreen> {
       key: _scaffoldMessengerKey,
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: AuthForm(_handleSubmit),
+        // body: AuthForm(_handleSubmit),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  AuthForm(_handleSubmit),
+                  if (_isLoading)
+                    Positioned.fill(
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        decoration:
+                            BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.5)),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    )
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
