@@ -1,4 +1,6 @@
 import 'package:chat/screens/auth_screen.dart';
+import 'package:chat/screens/chat_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -40,7 +42,15 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
           ),
-          home: AuthScreen(),
+          home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (ctx, userSnapshots) {
+                if (userSnapshots.hasData) {
+                  return ChatScreen();
+                } else {
+                  return AuthScreen();
+                }
+              }),
         );
       },
     );
