@@ -10,11 +10,21 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment:
+          belongsToMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).accentColor,
-            borderRadius: BorderRadius.circular(12),
+            color:
+                belongsToMe ? Colors.grey[300] : Theme.of(context).accentColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+              bottomLeft:
+                  belongsToMe ? Radius.circular(12) : Radius.circular(0),
+              bottomRight:
+                  belongsToMe ? Radius.circular(0) : Radius.circular(12),
+            ),
           ),
           width: 140,
           padding: EdgeInsets.symmetric(
@@ -28,7 +38,9 @@ class MessageBubble extends StatelessWidget {
           child: Text(
             message,
             style: TextStyle(
-              color: Theme.of(context).accentTextTheme.headline1!.color,
+              color: belongsToMe
+                  ? Colors.black
+                  : Theme.of(context).accentTextTheme.headline1!.color,
             ),
           ),
         ),
