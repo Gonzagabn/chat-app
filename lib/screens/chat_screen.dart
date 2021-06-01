@@ -1,6 +1,6 @@
 import 'package:chat/widgets/messages.dart';
 import 'package:chat/widgets/new_message.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +10,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final Stream<QuerySnapshot> _chats =
-      FirebaseFirestore.instance.collection('chat').snapshots();
+  // final Stream<QuerySnapshot> _chats =
+  //     FirebaseFirestore.instance.collection('chat').snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,12 +50,14 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Expanded(child: Messages()),
-            NewMessage(),
-          ],
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Expanded(child: Messages()),
+              NewMessage(),
+            ],
+          ),
         ),
       ),
     );
