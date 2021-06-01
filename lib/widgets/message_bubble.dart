@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
   final Key? key;
-  final String userId;
+  final String userName;
   final String message;
   final bool belongsToMe;
 
-  MessageBubble(this.message, this.userId, this.belongsToMe, {this.key})
+  MessageBubble(this.message, this.userName, this.belongsToMe, {this.key})
       : super(key: key);
 
   @override
@@ -39,21 +39,17 @@ class MessageBubble extends StatelessWidget {
             horizontal: 8,
           ),
           child: Column(
+            crossAxisAlignment:
+                belongsToMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: <Widget>[
-              FutureBuilder<DocumentSnapshot>(
-                future: FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(userId)
-                    .get(),
-                builder: (ctx, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text('Loading...');
-                  }
-
-                  return Text(
-                    snapshot.data!['name'],
-                  );
-                },
+              Text(
+                userName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: belongsToMe
+                      ? Colors.black
+                      : Theme.of(context).accentTextTheme.headline1!.color,
+                ),
               ),
               Text(
                 message,
@@ -62,6 +58,7 @@ class MessageBubble extends StatelessWidget {
                       ? Colors.black
                       : Theme.of(context).accentTextTheme.headline1!.color,
                 ),
+                textAlign: belongsToMe ? TextAlign.end : TextAlign.start,
               ),
             ],
           ),

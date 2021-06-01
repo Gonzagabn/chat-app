@@ -29,9 +29,9 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Flutter Chat',
           theme: ThemeData(
-            primarySwatch: Colors.brown,
-            backgroundColor: Colors.brown,
-            accentColor: Colors.pink,
+            primarySwatch: Colors.pink,
+            backgroundColor: Colors.pink,
+            accentColor: Colors.deepPurple,
             accentColorBrightness: Brightness.dark,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             elevatedButtonTheme: ElevatedButtonThemeData(
